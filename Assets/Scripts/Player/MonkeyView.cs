@@ -29,10 +29,17 @@ namespace ServiceLocator.Player
         
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            BloonView bloonView = collision.GetComponent<BloonView>();
-            if (bloonView != null)
+            if(collision.TryGetComponent<BloonView>(out BloonView bloonView))
             {
-                controller.BloonEnteredRange(bloonView.GetController());
+                controller.BloonEnteredRange(bloonView.Controller);
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.TryGetComponent<BloonView>(out BloonView bloonView))
+            {
+                controller.BloonExitedRange(bloonView.Controller);
             }
         }
 

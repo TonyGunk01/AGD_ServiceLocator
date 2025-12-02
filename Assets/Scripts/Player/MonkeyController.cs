@@ -66,5 +66,16 @@ namespace ServiceLocator.Player
         }
 
         private void ResetAttackTimer() => attackTimer = monkeyScriptableObject.AttackRate;
+
+        public void UpdateMonkey()
+        {
+            if(bloonsInRange.Count > 0)
+            {
+                BloonController targetBloon = bloonsInRange[0];
+                RotateTowardsTarget(targetBloon);
+                ShootAtTarget(targetBloon);
+                monkeyView.PlayAnimation(MonkeyAnimation.Shoot);
+            } 
+        }
     }
 }
