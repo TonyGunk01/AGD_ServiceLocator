@@ -10,8 +10,7 @@ namespace ServiceLocator.Player
 {
     public class PlayerService : GenericMonoSingleton<PlayerService>
     {
-        [SerializeField] public PlayerScriptableObject playerScriptableObject;
-
+        private PlayerScriptableObject playerScriptableObject;
         private ProjectilePool projectilePool;
 
         private List<MonkeyController> activeMonkeys;
@@ -20,8 +19,9 @@ namespace ServiceLocator.Player
         private int money;
         public int Money => money;
 
-        private void Start()
+        public PlayerService(PlayerScriptableObject playerScriptableObject)
         {
+            this.playerScriptableObject = playerScriptableObject;
             projectilePool = new ProjectilePool(playerScriptableObject.ProjectilePrefab, playerScriptableObject.ProjectileScriptableObjects);
             InitializeVariables();
         }
