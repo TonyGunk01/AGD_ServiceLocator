@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ServiceLocator.Wave.Bloon;
 using ServiceLocator.Player.Projectile;
-using ServiceLocator.Sound;
+using ServiceLocator.Main;
 
 namespace ServiceLocator.Player
 {
@@ -20,7 +20,7 @@ namespace ServiceLocator.Player
             monkeyView = Object.Instantiate(monkeyScriptableObject.Prefab);
             monkeyView.SetController(this);
             monkeyView.SetTriggerRadius(monkeyScriptableObject.Range);
-
+            
             this.monkeyScriptableObject = monkeyScriptableObject;
             this.projectilePool = projectilePool;
             bloonsInRange = new List<BloonController>();
@@ -43,7 +43,14 @@ namespace ServiceLocator.Player
 
         public bool CanAttackBloon(BloonType bloonType) => monkeyScriptableObject.AttackableBloons.Contains(bloonType);
 
-
+        public void UpdateMonkey()
+        {
+            if(bloonsInRange.Count > 0)
+            {
+                RotateTowardsTarget(bloonsInRange[0]);
+                ShootAtTarget(bloonsInRange[0]);
+            }
+        }
 
         private void RotateTowardsTarget(BloonController targetBloon)
         {
@@ -55,27 +62,16 @@ namespace ServiceLocator.Player
         private void ShootAtTarget(BloonController targetBloon)
         {
             attackTimer -= Time.deltaTime;
-            if (attackTimer <= 0)
+            if(attackTimer <= 0)
             {
                 ProjectileController projectile = projectilePool.GetProjectile(monkeyScriptableObject.projectileType);
                 projectile.SetPosition(monkeyView.transform.position);
                 projectile.SetTarget(targetBloon);
-                SoundService.Instance.PlaySoundEffects(Sound.SoundType.MonkeyShoot);
+                GameService.Instance.SoundService.PlaySoundEffects(Sound.SoundType.MonkeyShoot);
                 ResetAttackTimer();
             }
         }
 
         private void ResetAttackTimer() => attackTimer = monkeyScriptableObject.AttackRate;
-
-        public void UpdateMonkey()
-        {
-            if(bloonsInRange.Count > 0)
-            {
-                BloonController targetBloon = bloonsInRange[0];
-                RotateTowardsTarget(targetBloon);
-                ShootAtTarget(targetBloon);
-                monkeyView.PlayAnimation(MonkeyAnimation.Shoot);
-            } 
-        }
     }
 }

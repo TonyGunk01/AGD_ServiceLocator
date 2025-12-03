@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using UnityEngine;
+using ServiceLocator.Main;
 using ServiceLocator.Player;
 using ServiceLocator.Player.Projectile;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ public class PlayerService_UnitTest
     public void Setup()
     {
         PlayerScriptableObject playerSO = CreateDummyPlayerSO();
+        playerService = new PlayerService(playerSO);
     }
 
     private PlayerScriptableObject CreateDummyPlayerSO()
