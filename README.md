@@ -8,5 +8,4 @@ Coding all of this is very complicated, resource taxing and inefficient, hence I
 
 We have many waves where the frequency of these bloons differ. But creating all of these dependencies again whenever the wave is loaded can be CPU intensive. Therefore, I have used dependency injections. It is design pattern where an object receives its dependencies, i.e., other objects it needs from an external source rather than creating them itself, promoting loose coupling, testability, and modularity by "injecting" them, often via a constructor, which makes code easier to manage and reuse.
 
-Demo video:
-
+[Click here for demo video:](https://youtu.be/tYEWMJL9J7Q)
